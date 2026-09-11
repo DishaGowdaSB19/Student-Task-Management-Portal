@@ -7,6 +7,21 @@ function TaskCard(props) {
             <button onClick={props.onToggle}>
                 Change Status
             </button>
+
+            <button onClick={props.ondelete}>
+                Delete Task
+            </button>
+            <button onClick={()=>{
+                const updatedTask = {
+                    ...props,
+                    title: prompt("Enter new title", props.title),
+                    description: prompt("Enter new description", props.description),
+                    status: prompt("Enter new status (Pending/Completed)", props.status)
+                };
+                props.onsave(updatedTask);
+            }}>
+                Edit Task
+            </button>
         </div>
     );
 }

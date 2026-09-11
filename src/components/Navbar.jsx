@@ -1,14 +1,17 @@
-function Navbar() {
-    return (
-        <nav>
-            <h2>Student Task Portal</h2>
+import { NavLink } from "react-router-dom";
 
-            <div className="nav-links">
-                <span>Dashboard</span>
-                <span>Tasks</span>
-            </div>
-        </nav>
-    );
+function Navbar() {
+  return (
+    <nav>
+      <h2>Task Manager</h2>
+
+      <div className="nav-links">
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/dashboard">Dashboard</NavLink>
+        <NavLink to="/tasks">Tasks</NavLink>
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

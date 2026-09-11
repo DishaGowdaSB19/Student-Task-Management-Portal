@@ -66,7 +66,9 @@ function Dashboard() {
                         title={task.title} 
                         description={task.description} 
                         status={task.status}
-                        onToggle={()=>toggleTask(task.id)} 
+                        onToggle={()=>toggleTask(task.id)}
+                        ondelete={()=>setTasks(tasks.filter((t)=>t.id !== task.id))}
+                        onsave={(updatedTask)=>setTasks(tasks.map((t)=>t.id === task.id ? updatedTask : t))}
                     />
                 ))};
             </div>
