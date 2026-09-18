@@ -5,7 +5,7 @@ function TaskDetails(props){
     const [task, setTasks] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(()=>{
-        fetch(`http://localhost:5000/api/tasks/${id}`)
+        fetch(`http://localhost:5050/api/tasks/${id}`)
         .then((response) => {
             if(!response.ok){
                 throw new Error ("Task Not Found");
