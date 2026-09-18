@@ -5,19 +5,27 @@ import AddTask from "./AddTask";
 function Dashboard(props) {
 
     async function toggleTask(id){
-        const task=props.tasks.find((task)=>task.id === id);
-        const newStatus = task.status === "Completed" ? "Pending" : "Completed";
-        const response=await fetch(`http://localhost:5050/api/tasks/${id}`,{
-            method: "PUT",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({status: newStatus})
+        const task = props.tasks.find((task)=>task._id === id);
+        const newStatus = task.status ==="Completed"
+         ? "Pending" : "Completed";
+        
+        const response = await fetch(`http://localhost:5000/api/tasks/${id}`
+            , {
+                method: "PUT",
+                headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status:newStatus
+            })
         });
+
         const updatedTask = await response.json();
+
         props.setTasks(
             props.tasks.map((task) => {
-                if(task.id === id){
+                if(task._id === id){
                     return updatedTask;
-                    
                 }
                 return task;
             })
@@ -29,23 +37,25 @@ function Dashboard(props) {
     }
 
     async function deleteTask(id){
-        const response = await fetch(`http://localhost:5050/api/tasks/${id}`, {
-            method: "DELETE"
-        });
+        const response = await fetch(`http://localhost:5000/api/tasks/${id}`, {
+                method: "DELETE"
+            });
 
-        const deletedTask = await response.json();
-        props.setTasks(props.tasks.filter((task) => task.id !== deletedTask.id));
+            const deletedTask = await response.json();
+        props.setTasks(
+            props.tasks.filter((task)=>task._id !== deletedTask._id)
+        );
     }
 
     return (
         <main>
         
             <div className="stats-container">
-                <StatCard title="Total Tasks" value="10"/>
-                <StatCard title="Completed" value="6"/>
-                <StatCard title="Pending" value="4"/>
-                <StatCard title = "Time Taken" value = "4hrs"/>
-                <StatCard title = "Completed by" value="Sharan D"/>
+                <StatCard title="Total Tasks" value={props.tasks.length}/>
+                <StatCard title="Completed"
+                 value={props.tasks.filter((task)=>task.status === "Completed").length}/>
+                <StatCard title="Pending" 
+                value={props.tasks.filter((task)=>task.status === "Pending").length}/>
                 
             </div>
 
@@ -56,13 +66,13 @@ function Dashboard(props) {
             <div className="tasks-container">
                 {props.tasks.map((task)=>(
                     <TaskCard 
-                        key={task.id} 
-                        id ={task.id}
+                        key={task._id} 
+                        id ={task._id}
                         title={task.title} 
                         description={task.description} 
                         status={task.status}
-                        onToggle={()=>toggleTask(task.id)} 
-                        onDelete={()=>deleteTask(task.id)}
+                        onToggle={()=>toggleTask(task._id)} 
+                        onDelete={()=>deleteTask(task._id)}
                     />
                 ))};
             </div>
